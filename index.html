@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gejm</title>
+</head>
+
+<body>
+    <div id="world">
+        <div id="scene">
+
+        </div>
+
+    </div>
+    <div id="gun" class="idle"></div>
+    <div id="lightoverlaycontent">
+        <div id="lightoverlay"></div>
+    </div> 
+
+    <script src="./engine.js"></script>
+    <script src="./game.js"></script>
+    <style>
+        body {
+            background: #000;
+        }
+
+        #gun {
+            position: fixed;
+            bottom: 0;
+            right: 250px;
+            width: 750px;
+            height: 750px;
+            background: url("gun.png");
+            background-size: 100% 100%;
+            
+        }
+
+        @keyframes idle {
+            from {
+                transform: translateY(0%) rotate(0);
+            }
+
+            50%{
+                transform: translateY(1%) rotate(-1deg);
+
+            }
+
+            to {
+                transform: translateY(0%) rotate(0);
+            }
+        }
+
+        @keyframes jump {
+            from {
+                transform: translateY(0%);
+            }
+
+            10%{
+                transform: translateY(7.5%);
+
+            }
+
+
+            50%{
+                transform: translateY(0%);
+
+            }
+
+            85%{
+                transform: translateY(2%);
+
+            }
+
+            to {
+                transform: translateY(0%);
+            }
+        }
+
+        @keyframes run {
+            from {
+                transform: translateX(0%) translateY(1%) rotate(0);
+            }
+
+            25%{
+                transform: translateX(1%) translateY(0%) rotate(1deg);
+
+            }
+
+            50% {
+                transform: translateX(0%) translateY(1%) rotate(0);
+            }
+
+            75%{
+                transform: translateX(-1%) translateY(0%) rotate(-1deg);
+
+            }
+
+            to {
+                transform: translateX(0%) translateY(1%) rotate(0);
+            }
+        }
+
+        .idle {
+            animation: idle 3.5s linear infinite;
+        }
+        .run {
+            animation: run 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        .jump{
+            animation: jump 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+
+
+        #world,
+        #scene,
+        #lightoverlaycontent {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #lightoverlaycontent {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            mix-blend-mode: multiply;
+            background: black;
+        }
+
+        #lightoverlay {
+            width: 2000px;
+            height: 2000px;
+            background: radial-gradient(#fff 20%, #000 60%);
+            border-radius: 100%;
+        }
+
+        #world {
+            perspective: 500px;
+            perspective-origin: 50% 50%;
+        }
+
+        #world,
+        #world div {
+            transform-style: preserve-3d;
+        }
+
+        .actor,
+        .wall {
+            position: fixed;
+            background: rgb(255, 0, 255);
+
+        }
+
+        .gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+    </style>
+</body>
+
+</html>
