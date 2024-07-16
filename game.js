@@ -1,3 +1,24 @@
+let collision = [
+	[-1800,2000, -200, 200, 0],
+	[-2000,-1800, -200, 200, 200]
+]
+
+function getCollision(z, collision){
+	for(let i of collision){
+		if(z >= i[0] && z <= i[1]) return [i[2]+5,i[3]-5, i[4]]
+	}
+	return [-2000,2000, 0]
+}
+
+/*
+
+default map chunk size is 11x11
+
+*/
+
+
+// Create Map
+
 let a = Actor(Vector3(0,0,-200),Vector2(200,200))
 a.texture = 'url("./scribe.png")'
 Spawn(a)
@@ -42,8 +63,11 @@ let leftAxis = 0
 
 let jumpspeed = 0
 
+let groundPosition = getCollision(Camera.position.z, collision)[2]
+let maxJumpHeight = groundPosition+75
+
 window.onkeypress = e => {
-	if(e.key == " " && Camera.position.y < 0.1) {
+	if(e.key == " " && Camera.position.y < groundPosition+0.1) {
 		jumpspeed = 350
 	}
 }
@@ -76,9 +100,13 @@ function resize(){
 	document.querySelector('#lightoverlay').style.width = (window.innerHeight + 750) + 'px'
 
 
-	document.querySelector('#gun').style.height = (window.innerHeight*0.75) + 'px'
-	document.querySelector('#gun').style.width = (window.innerHeight*0.75) + 'px'
-	document.querySelector('#gun').style.right = (window.innerWidth*0.15) + 'px'
+	document.querySelector('#gun #right').style.height = (window.innerHeight*0.75) + 'px'
+	document.querySelector('#gun #right').style.width = (window.innerHeight*0.75) + 'px'
+	document.querySelector('#gun #right').style.right = (window.innerWidth*0.09) + 'px'
+
+	document.querySelector('#gun #left').style.height = (window.innerHeight*0.75) + 'px'
+	document.querySelector('#gun #left').style.width = (window.innerHeight*0.75) + 'px'
+	document.querySelector('#gun #left').style.left = (window.innerWidth*0.09) + 'px'
 
 }
 resize()
@@ -87,6 +115,8 @@ window.onresize = resize
 
 function update(deltaTime){
 
+	
+
 	// movement speed
 	movementSpeed.y = Clamp(movementSpeed.y + (forwardAxis-backAxis)*deltaTime/5, maxMovementSpeed.x, maxMovementSpeed.y)
 	movementSpeed.x = Clamp(movementSpeed.x + (leftAxis-rightAxis)*deltaTime/5, maxMovementSpeed.x, maxMovementSpeed.y)
@@ -94,15 +124,35 @@ function update(deltaTime){
 	if((forwardAxis-backAxis) == 0) movementSpeed.y = Clamp(movementSpeed.y/2, maxMovementSpeed.x, maxMovementSpeed.y)
 	if((leftAxis-rightAxis) == 0) movementSpeed.x = Clamp(movementSpeed.x/2, maxMovementSpeed.x, maxMovementSpeed.y)
 
-	Camera.position.z+= movementSpeed.y
-	Camera.position.x+= movementSpeed.x
-	Camera.position.y = Clamp(Camera.position.y + jumpspeed*deltaTime/1000, 0, 75)
+	// Camera.position.z = Camera.position.z + movementSpeed.y
+	Camera.position.z = Clamp(Camera.position.z + movementSpeed.y, -2000, 2000)
+
+	Camera.position.x = Clamp(Camera.position.x + movementSpeed.x, ...getCollision(Camera.position.z, collision))
+
+	// groundPosition = getCollision(Camera.position.z, collision)[2]
+
+	if(groundPosition < getCollision(Camera.position.z, collision)[2]) groundPosition = Clamp(groundPosition + deltaTime, groundPosition, getCollision(Camera.position.z, collision)[2])
+	else if(groundPosition > getCollision(Camera.position.z, collision)[2]) groundPosition = Clamp(groundPosition - deltaTime, getCollision(Camera.position.z, collision)[2],  groundPosition)
+
+
+
+
+
+	maxJumpHeight = groundPosition+75
+
+	Camera.position.y = Clamp(Camera.position.y + jumpspeed*deltaTime/1000, groundPosition, maxJumpHeight)
 
 	jumpspeed = Clamp(jumpspeed - deltaTime, -1000, 1000)
 
-	if(Math.abs(movementSpeed.x)+Math.abs(movementSpeed.y)>0.1 && Camera.position.y < 0.1) document.querySelector('#gun').classList = 'run'
-	else if(Camera.position.y > 0.1) document.querySelector('#gun').classList = 'jump'
+	if(Math.abs(movementSpeed.x)+Math.abs(movementSpeed.y)>0.1 && Camera.position.y < groundPosition+0.1) document.querySelector('#gun').classList = 'run'
+	else if(Camera.position.y > groundPosition+0.1) document.querySelector('#gun').classList = 'jump'
 	else document.querySelector('#gun').classList = 'idle'
+
+
+	if(Camera.position.y > groundPosition+0.1) maxMovementSpeed = Vector2(-15,15)
+	else maxMovementSpeed = Vector2(-10,10)
+
+
 
 
 	// camera tilt when strafing

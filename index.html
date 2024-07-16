@@ -14,7 +14,10 @@
         </div>
 
     </div>
-    <div id="gun" class="idle"></div>
+    <div id="gun" class="idle">
+        <div id="right"></div>
+        <div id="left"></div>
+    </div>
     <div id="lightoverlaycontent">
         <div id="lightoverlay"></div>
     </div> 
@@ -29,12 +32,30 @@
         #gun {
             position: fixed;
             bottom: 0;
+            left:0;
+            width:100%;
+            height: 100%;
+        }
+
+        #right{
+            position: fixed;
+            bottom: 0;
             right: 250px;
             width: 750px;
             height: 750px;
             background: url("gun.png");
             background-size: 100% 100%;
-            
+        }
+
+        #left{
+            position: fixed;
+            bottom: 0;
+            left: 250px;
+            width: 750px;
+            height: 750px;
+            background: url("gun.png");
+            background-size: 100% 100%;
+            transform: scaleX(-1);
         }
 
         @keyframes idle {
@@ -43,7 +64,7 @@
             }
 
             50%{
-                transform: translateY(1%) rotate(-1deg);
+                transform: translateY(2%) rotate(-1deg);
 
             }
 
@@ -80,30 +101,30 @@
 
         @keyframes run {
             from {
-                transform: translateX(0%) translateY(1%) rotate(0);
+                transform: translateX(0%) translateY(1%) rotate(0deg);
             }
 
             25%{
-                transform: translateX(1%) translateY(0%) rotate(1deg);
+                transform: translateX(3%) translateY(0%) rotate(1deg);
 
             }
 
             50% {
-                transform: translateX(0%) translateY(1%) rotate(0);
+                transform: translateX(0%) translateY(1%) rotate(0deg);
             }
 
             75%{
-                transform: translateX(-1%) translateY(0%) rotate(-1deg);
+                transform: translateX(-3%) translateY(0%) rotate(-1deg);
 
             }
 
             to {
-                transform: translateX(0%) translateY(1%) rotate(0);
+                transform: translateX(0%) translateY(1%) rotate(0deg);
             }
         }
 
         .idle {
-            animation: idle 3.5s linear infinite;
+            animation: idle 2s linear infinite;
         }
         .run {
             animation: run 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
@@ -135,7 +156,7 @@
         #lightoverlay {
             width: 2000px;
             height: 2000px;
-            background: radial-gradient(#fff 20%, #000 60%);
+            background: radial-gradient(#f00 20%, #000 60%);
             border-radius: 100%;
         }
 
