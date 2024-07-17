@@ -1,7 +1,85 @@
-let collision = [
-	[-1800,2000, -200, 200, 0],
-	[-2000,-1800, -200, 200, 200]
-]
+// let collision = [
+// 	[-1800,2000, -200, 200, 0],
+// 	[-2000,-1800, -200, 200, 200]
+// ]
+
+
+
+/*
+
+default map chunk size is 15x15
+
+*/
+
+
+let levelData = [1]
+
+
+
+
+let collision = []
+
+for(let i = 0; i < levelData.length; i++){
+	switch(levelData[i]){
+
+		default:
+			// for(let j = i*15; j < (i+1)*15; j++){
+			// 	Spawn(
+			// 		Wall(Vector3(0,100,-200*j), Vector2(200,200), Vector3(90,0,0), e=>{e.texture = 'url("./bricks.png")'}),
+			// 		Wall(Vector3(0,-100,-200*j), Vector2(200,200), Vector3(90,0,0), e=>{e.texture = 'url("./bricks.png")'}),
+			// 		Wall(Vector3(100,0,-200*j), Vector2(200,200), Vector3(90,90,0), e=>{e.texture = 'url("./bricks.png")'}),
+			// 		Wall(Vector3(-100,0,-200*j), Vector2(200,200), Vector3(90,90,0), e=>{e.texture = 'url("./bricks.png")'}),
+			// 	)
+			// }
+			for(let j = i*15; j < (i+1)*15; j++){
+				Spawn(
+					Wall(Vector3(0,100,-200*j), Vector2(100,200), Vector3(90,0,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(-75,75,-200*j), Vector2(100,200), Vector3(90,45,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(0,-100,-200*j), Vector2(100,200), Vector3(90,0,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(75,75,-200*j), Vector2(100,200), Vector3(90,-45,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(100,0,-200*j), Vector2(100,200), Vector3(90,90,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(75,-75,-200*j), Vector2(100,200), Vector3(90,45,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(-100,0,-200*j), Vector2(100,200), Vector3(90,90,0), e=>{e.texture = 'url("./bricks.png")'}),
+					Wall(Vector3(-75,-75,-200*j), Vector2(100,200), Vector3(90,-45,0), e=>{e.texture = 'url("./bricks.png")'}),
+				)
+			}
+			collision.push([200*i*15, 200*(i+1)*15, -100, 100, 0])
+	}
+}
+
+// Create Map
+
+// let a = Actor(Vector3(0,0,-200),Vector2(200,200))
+// a.texture = 'url("./scribe.png")'
+// Spawn(a)
+
+// // let w = Wall(Vector3(0,100,-200),Vector2(200,200),Vector3(90,0,0))
+// // w.texture = 'url("./bricks.png")'
+
+// for(let i = -10; i < 10; i++){
+// 		let a = Wall(Vector3(100,100,200*i),Vector2(200,200),Vector3(90,0,0))
+// 		a.texture = 'url("./bricks.png")'
+// 		let b = Wall(Vector3(-100,100,200*i),Vector2(200,200),Vector3(90,0,0))
+// 		b.texture = 'url("./bricks.png")'
+
+// 		let c = Wall(Vector3(-200,0,200*i),Vector2(200,200),Vector3(90,90,0))
+// 		c.texture = 'url("./bricks.png")'
+
+// 		let d = Wall(Vector3(100,-100,200*i),Vector2(200,200),Vector3(90,0,0))
+// 		d.texture = 'url("./bricks.png")'
+// 		let e = Wall(Vector3(-100,-100,200*i),Vector2(200,200),Vector3(90,0,0))
+// 		e.texture = 'url("./bricks.png")'
+
+// 		let f = Wall(Vector3(200,0,200*i),Vector2(200,200),Vector3(90,-90,0))
+// 		f.texture = 'url("./bricks.png")'
+
+
+// 		Spawn(a,b,c,d,e,f)
+// }
+
+
+
+
 
 function getCollision(z, collision){
 	for(let i of collision){
@@ -9,47 +87,6 @@ function getCollision(z, collision){
 	}
 	return [-2000,2000, 0]
 }
-
-/*
-
-default map chunk size is 11x11
-
-*/
-
-
-// Create Map
-
-let a = Actor(Vector3(0,0,-200),Vector2(200,200))
-a.texture = 'url("./scribe.png")'
-Spawn(a)
-
-// let w = Wall(Vector3(0,100,-200),Vector2(200,200),Vector3(90,0,0))
-// w.texture = 'url("./bricks.png")'
-
-for(let i = -10; i < 10; i++){
-		let a = Wall(Vector3(100,100,200*i),Vector2(200,200),Vector3(90,0,0))
-		a.texture = 'url("./bricks.png")'
-		let b = Wall(Vector3(-100,100,200*i),Vector2(200,200),Vector3(90,0,0))
-		b.texture = 'url("./bricks.png")'
-
-		let c = Wall(Vector3(-200,0,200*i),Vector2(200,200),Vector3(90,90,0))
-		c.texture = 'url("./bricks.png")'
-
-		let d = Wall(Vector3(100,-100,200*i),Vector2(200,200),Vector3(90,0,0))
-		d.texture = 'url("./bricks.png")'
-		let e = Wall(Vector3(-100,-100,200*i),Vector2(200,200),Vector3(90,0,0))
-		e.texture = 'url("./bricks.png")'
-
-		let f = Wall(Vector3(200,0,200*i),Vector2(200,200),Vector3(90,-90,0))
-		f.texture = 'url("./bricks.png")'
-
-
-		Spawn(a,b,c,d,e,f)
-}
-
-
-
-
 
 
 
@@ -67,8 +104,8 @@ let groundPosition = getCollision(Camera.position.z, collision)[2]
 let maxJumpHeight = groundPosition+75
 
 window.onkeypress = e => {
-	if(e.key == " " && Camera.position.y < groundPosition+0.1) {
-		jumpspeed = 350
+	if(e.key == " " && Camera.position.y <= groundPosition+0.1) {
+		jumpspeed = 300
 	}
 }
 
@@ -125,7 +162,8 @@ function update(deltaTime){
 	if((leftAxis-rightAxis) == 0) movementSpeed.x = Clamp(movementSpeed.x/2, maxMovementSpeed.x, maxMovementSpeed.y)
 
 	// Camera.position.z = Camera.position.z + movementSpeed.y
-	Camera.position.z = Clamp(Camera.position.z + movementSpeed.y, -2000, 2000)
+
+	Camera.position.z = Clamp(Camera.position.z + movementSpeed.y, 0, (levelData.length)*15*200-200)
 
 	Camera.position.x = Clamp(Camera.position.x + movementSpeed.x, ...getCollision(Camera.position.z, collision))
 
@@ -138,7 +176,7 @@ function update(deltaTime){
 
 
 
-	maxJumpHeight = groundPosition+75
+	maxJumpHeight = groundPosition+50
 
 	Camera.position.y = Clamp(Camera.position.y + jumpspeed*deltaTime/1000, groundPosition, maxJumpHeight)
 
@@ -159,6 +197,8 @@ function update(deltaTime){
 	if(leftAxis > 0 && rightAxis == 0) Camera.rotation.z = Clamp(Camera.rotation.z - deltaTime/50, -4, 4)
 	else if(rightAxis > 0 && leftAxis == 0) Camera.rotation.z = Clamp(Camera.rotation.z + deltaTime/50, -4, 4)
 	else Camera.rotation.z= Clamp(Camera.rotation.z/1.1, -4, 4)
+
+	// Camera.rotation.x = -90
 
 
 	
@@ -191,9 +231,9 @@ function _update(time){
 		i.style.backgroundSize = '100% 100%';
 
 
-		let percentage =  Clamp((-i.position.z-Camera.position.z)/15,0,100)/100
-		let percentage1 =  Clamp((-i.position.z-Camera.position.z+100)/15,0,100)/100
-		let percentage2 =  Clamp((-i.position.z-Camera.position.z-100)/15,0,100)/100
+		let percentage =  Clamp((-i.position.z-Camera.position.z)/10,0,100)/100
+		let percentage1 =  Clamp((-i.position.z-Camera.position.z+100)/10,0,100)/100
+		let percentage2 =  Clamp((-i.position.z-Camera.position.z-100)/10,0,100)/100
 
 		if(i.children[0]){
 			i.children[0].style.background = `linear-gradient(rgba(0,0,0,${percentage1}), rgba(0,0,0,${percentage2}))`
@@ -207,7 +247,7 @@ function _update(time){
 
 		// i.style.filter = 'brightness('+Clamp((175 - Clamp((-i.position.z-Camera.position.z)/2,0,100)), 0 , 100)+'%)'/
 	}
-	document.querySelector('#scene').style.transform = `translateZ(500px) rotate(${Camera.rotation.z}deg)`
+	document.querySelector('#scene').style.transform = `translateZ(500px) rotateX(${Camera.rotation.x}deg) rotateZ(${Camera.rotation.z}deg)`
 
 	window.requestAnimationFrame(_update)
 }

@@ -15,7 +15,7 @@ function Vector3(x,y,z){
     }
 }
 
-function Wall(position, scale, rotation){
+function Wall(position, scale, rotation, fun){
     let e = document.createElement('div')
     e.classList = "wall"
     e.position = position?position:Vector3()
@@ -27,17 +27,21 @@ function Wall(position, scale, rotation){
     gradient.classList = 'gradient'
     e.append(gradient)
 
+    if(typeof fun === 'function') fun(e)
+
     
     return e
 }
 
-function Actor(position, scale){
+function Actor(position, scale, fun){
     let e = document.createElement('div')
     e.classList = "actor"
     e.position = position?position:Vector3()
     e.rotation = Vector3()
     e.scale = scale?scale:Vector2()
     e.texture = 'red'
+
+    if(typeof fun === 'function') fun(e)
     
     return e
 }
